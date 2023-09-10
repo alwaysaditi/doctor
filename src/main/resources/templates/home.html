@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<hr>
+<h2>Welcome to the home page! <span sec:authentication = "principal.username"></span></h2>
+
+<hr>
+
+
+<p> You have been granted roles <span sec:authentication = "principal.authorities"></span></p>
+<form action="#" th:action="@{/logout}" method="POST">
+   <input type ="submit" value = "Logout"/>
+</form>
+
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+    <a th:href="@{/admin/}">Continue to ADMIN home page</a>
+</div>
+
+<div sec:authorize="hasRole('ROLE_DOCTOR')">
+    <a th:href="@{/doctor/}">Continue to DOCTOR home page</a>
+</div>
+
+<div sec:authorize="hasRole('ROLE_NURSE')">
+    <a th:href="@{/nurse/}">Continue to NURSE home page</a>
+</div>
+
+<div sec:authorize="hasRole('ROLE_PHARMACIST')">
+    <a th:href="@{/pharmacist/}">Continue to PHARMACIST home page</a>
+</div>
+
+<div sec:authorize="hasRole('ROLE_PATIENT')">
+    <a th:href="@{/patient/}">Continue to PATIENT home page</a>
+</div>
+
+</body>
+</html>
