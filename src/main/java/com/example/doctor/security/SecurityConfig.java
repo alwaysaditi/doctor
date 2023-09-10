@@ -60,7 +60,7 @@ public class SecurityConfig {
     {
       JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
-      jdbcUserDetailsManager.setUsersByUsernameQuery("select user_id,pw,active from members where user_id=?");
+      jdbcUserDetailsManager.setUsersByUsernameQuery("select user_id,pw , 'true' as enabled from members where user_id=?");
       jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select user_id , role from roles where user_id=?");
       return jdbcUserDetailsManager;
     }
@@ -71,15 +71,16 @@ public class SecurityConfig {
     public SecurityFilterChain configureSecurity(HttpSecurity http) throws Exception
     {
         http.authorizeHttpRequests(configurer->configurer
+                        .requestMatchers("/register/").permitAll()
                         .requestMatchers("/home/").hasRole("USER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/doctor/**").hasRole("DOCTOR")
                         .requestMatchers("/patient/**").hasRole("PATIENT")
                         .requestMatchers("/nurse/**").hasRole("NURSE")
                         .requestMatchers("/pharmacist/**").hasRole("PHARMACIST")
+                        .anyRequest().authenticated()
 
 
-                .anyRequest().authenticated()
         )
                 .exceptionHandling(exception ->exception.accessDeniedPage("/access-denied"))
                 .formLogin(form -> form

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Sign up today</title>
+
+</head>
+
+<body>
+<div class="container">
+  <h1>Create new account and sign up today</h1>
+  <hr>
+  <h2>Save User</h2>
+
+  <form action="#" th:action="@{/register/signup}" th:object="${newmember}" method="POST">
+
+    <input type="text" th:field="*{userName}" placeholder="Username" >
+
+    <input type="text" th:field="*{password}" placeholder="Password" >
+
+    <input type="text" th:field="*{fullName}" placeholder="Full name" >
+
+    <input type="password" th:field="*{email}" placeholder="Email" >
+
+
+
+    <button  type="submit"> Save User</button>
+
+
+
+    <div th:if="${email_reg}">
+      <p th:text="${errorMess}"></p>
+    </div>
+
+    <div th:unless="${email_reg}">
+      <p th:text="${signsuccess}"></p>
+    </div>
+
+
+  </form>
+
+  <hr>
+
+
+</div>
+
+
+</body>
