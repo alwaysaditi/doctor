@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User Table</title>
+</head>
+<body>
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Role</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="user : ${userlist}">
+    <td th:text="${user.user_id}"></td>
+    <td th:text="${user.role}"></td>
+  </tr>
+  </tbody>
+</table>
+<h3>Please click on a user to assign a role</h3>
+</body>
+</html>
