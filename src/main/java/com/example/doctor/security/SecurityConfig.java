@@ -71,16 +71,14 @@ public class SecurityConfig {
     public SecurityFilterChain configureSecurity(HttpSecurity http) throws Exception
     {
         http.authorizeHttpRequests(configurer->configurer
-                        .requestMatchers("/register/").permitAll()
-                        .requestMatchers("/home/").hasRole("USER")
+                        .requestMatchers("/register/**").permitAll()
+                        .requestMatchers("/home").hasAnyRole("USER","DOCTOR","ADMIN","NURSE","PHARMACIST","PATIENT")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/doctor/**").hasRole("DOCTOR")
                         .requestMatchers("/patient/**").hasRole("PATIENT")
                         .requestMatchers("/nurse/**").hasRole("NURSE")
                         .requestMatchers("/pharmacist/**").hasRole("PHARMACIST")
                         .anyRequest().authenticated()
-
-
         )
                 .exceptionHandling(exception ->exception.accessDeniedPage("/access-denied"))
                 .formLogin(form -> form
