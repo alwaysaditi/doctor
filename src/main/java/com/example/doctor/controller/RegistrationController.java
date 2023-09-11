@@ -8,12 +8,15 @@ import com.example.doctor.repository.MemberDAO;
 import com.example.doctor.repository.RolesRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/register")
@@ -49,15 +52,33 @@ public class RegistrationController {
         try
         {
             //theSavedMember.setId(0);
-            memberRepository.save(theSavedMember);
+            if(!existsByFirstname(theSavedMember.getUserName()))
+            {
+                memberRepository.save(theSavedMember);
+                duplicate = false;
+                rolesRepository.save(new Roles(theSavedMember.getUserName(),"ROLE_USER"));
+                model.addAttribute("signsuccess","Sign up successful!");
+                session.setAttribute("newmember",theMember);
+                return "home";
+            }
+
             //System.out.println("Member name of new Member "+theSavedMember.getMembername());
-            duplicate = false;
-            model.addAttribute("duplicate",duplicate); // if duplicate is false then
+            else
+            {
+                duplicate = true;
+                System.out.println("duplicate email or Membername");
+                duplicate = true;
+                model.addAttribute("email_reg",duplicate);
+                model.addAttribute("errorMess","An account with the email/Membername already exists. Please login or try again");
+                model.addAttribute("duplicate",duplicate);
+                return "signupform";
+            }
+
+             // if duplicate is false then
             // u can also print login success!
-           rolesRepository.save(new Roles(theSavedMember.getUserName(),"ROLE_USER"));
-           model.addAttribute("signsuccess","Sign up successful!");
-           session.setAttribute("newmember",theMember);
-            return "home";
+
+
+
         }
 
         catch (Exception e )
@@ -75,6 +96,12 @@ public class RegistrationController {
 
 
     }
+
+    boolean existsByFirstname(String username) {
+        return !memberRepository.findByUsername(username).isEmpty();
+        // if no records found , return false .. meaning new data can be created
+    }
+
 
 
 
