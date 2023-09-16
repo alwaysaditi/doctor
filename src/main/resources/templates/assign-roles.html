@@ -9,15 +9,31 @@
   <tr>
     <th>Name</th>
     <th>Role</th>
+    <th>Action</th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="user : ${userlist}">
     <td th:text="${user.user_id}"></td>
     <td th:text="${user.role}"></td>
+    <td>
+      <form th:action="@{/admin/updaterole}" method="post" >
+        <input type="hidden" name="userId" th:value="${user.user_id}"/>
+        <select name="role">
+          <option value="ROLE_DOCTOR">Doctor</option>
+          <option value="ROLE_NURSE">Nurse</option>
+          <option value="ROLE_PHARMACIST">Pharmacist</option>
+          <option value="ROLE_LABDOC">Nurse</option>
+          <option value="ROLE_PATIENT">Patient</option>
+
+        </select>
+        <button type="submit">Update Role</button>
+      </form>
+    </td>
   </tr>
   </tbody>
 </table>
 <h3>Please click on a user to assign a role</h3>
 </body>
 </html>
+

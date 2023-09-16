@@ -27,9 +27,7 @@
 
     <button  type="submit"> Save User</button>
 
-    <form th:action="@{/loginForm}" method="get">
-      <button type="submit">Go to Login Form</button>
-    </form>
+
 
     <div th:if="${email_reg}">
       <p th:text="${errorMess}"></p>
@@ -40,6 +38,9 @@
     </div>
 
 
+  </form>
+  <form th:action="@{/loginForm}" method="get">
+    <button type="submit">Go to Login Form</button>
   </form>
 
   <hr>
