@@ -4,7 +4,13 @@
   <title>User Table</title>
 </head>
 <body>
-<table>
+<div th:if="${#lists.size(userlist) == 0}">
+<h2>No users left to assign! </h2>
+  <form th:action="@{/home}" method="get">
+    <button type="submit">Go back!</button>
+  </form>
+</div>
+<table  th:if="${#lists.size(userlist) > 0}">
   <thead>
   <tr>
     <th>Name</th>
@@ -31,9 +37,10 @@
       </form>
     </td>
   </tr>
+  <h3>Please click on a user to assign a role</h3>
   </tbody>
 </table>
-<h3>Please click on a user to assign a role</h3>
+
 </body>
 </html>
 
