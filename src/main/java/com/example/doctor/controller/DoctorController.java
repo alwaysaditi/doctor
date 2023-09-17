@@ -1,6 +1,9 @@
 package com.example.doctor.controller;
 
+import com.example.doctor.entity.DocDet;
 import com.example.doctor.entity.Doctor;
+import com.example.doctor.entity.FormEntity;
+import com.example.doctor.repository.DoctorDetails;
 import com.example.doctor.repository.DoctorRepository;
 import com.example.doctor.repository.MemberDAO;
 import jakarta.transaction.Transactional;
@@ -25,6 +28,9 @@ public class DoctorController {
 
     @Autowired
     private MemberDAO memberDAO;
+
+    @Autowired
+    private DoctorDetails doctorDetails;
     @GetMapping("/")
     public String doctorHome(Model model)
     {
@@ -44,7 +50,9 @@ public class DoctorController {
         {
             model.addAttribute("added",false);
             model.addAttribute("reftext","please configure your profile first!");
-            model.addAttribute("newdoctor", new Doctor());
+            FormEntity formEntity = new FormEntity(new Doctor(), new DocDet(),new DocDet(), new DocDet(),new DocDet());
+            model.addAttribute("formentity", formEntity);
+            System.out.println("no such doctor yet exists");
         }
 
         return "doctor-home";
@@ -52,14 +60,23 @@ public class DoctorController {
 
     @PostMapping("/registerdoc")
     @Transactional
-    String registerDoctor(@ModelAttribute("newdoctor") Doctor newDoc, Model model) // this can be only for adding the doctors
+    String registerDoctor(@ModelAttribute("formentity")FormEntity formEntity, Model model) // this can be only for adding the doctors
             // details , whil another form in the same page can be used to add experiences and
             // eductaion, with a different model attribute. the username can be gotten by the currently logged in user;
     {
-Doctor theSavedDoc = new Doctor(0,authenticatedusername,memberDAO.findEmailByUsername(authenticatedusername),newDoc.getFullName(), newDoc.getSpeciality());
+        System.out.println("entered here!");
+Doctor theSavedDoc = new Doctor(0,authenticatedusername,memberDAO.findEmailByUsername(authenticatedusername),formEntity.getDoctor().getFullName(), formEntity.getDoctor().getSpeciality());
+DocDet bachelorsDegree = new DocDet(0,authenticatedusername,"DEGREE",formEntity.getDocdet1().getEntry());
+DocDet mastersDegree = new DocDet(0,authenticatedusername,"DEGREE",formEntity.getDocdet2().getEntry());
+DocDet phDegree = new DocDet(0,authenticatedusername,"DEGREE",formEntity.getDocdet3().getEntry());
+        DocDet experience = new DocDet(0,authenticatedusername,"EXPERIENCE",formEntity.getDocdet4().getEntry());
         model.addAttribute("added",true);
-        model.addAttribute("reftext","Welcome to the home page!, Dr "+newDoc.getFullName());
+        model.addAttribute("reftext","Welcome to the home page!, Dr "+formEntity.getDoctor().getFullName());
         doctorRepository.save(theSavedDoc);
+        doctorDetails.save(bachelorsDegree);
+        doctorDetails.save(mastersDegree);
+        doctorDetails.save(phDegree);
+        doctorDetails.save(experience);
         return "doctor-home";
     }
 

@@ -9,29 +9,29 @@
 
 <h3 th:text = "${reftext}"></h3>
 
-<form th:unless="${added}" action="#" th:action="@{/doctor/registerdoc}" th:object="${newdoctor}" method="POST">
+<form th:unless="${added}" action="#" th:action="@{/doctor/registerdoc}" th:object="${formentity}" method="POST">
 
-    <input type="text" th:field="*{fullName}" placeholder="Full name" >
+    <input type="text" th:field="*{doctor.fullName}" placeholder="Full name" >
     <hr>
-    <form>
-
-        <select name="speciality">
-            <option value="Gastroenterology">Gastroenterology</option>
-            <option value="Cardiology">Cardiology</option>
-            <option value="Gynaecology">Gynaecology</option>
-            <option value="Paediatrics">Paediatrics</option>
-            <option value="General Physician">General Physician</option>
-
-        </select>
-        <button type="submit">Submit details</button>
-    </form>
+    <label>Select a Speciality:</label>
+    <select th:field="*{doctor.speciality}">
+        <option value="Gastroenterology">Gastroenterology</option>
+        <option value="Cardiology">Cardiology</option>
+        <option value="Gynaecology">Gynaecology</option>
+        <option value="Paediatrics">Paediatrics</option>
+        <option value="General Physician">General Physician</option>
+    </select><br/>
     <hr>
 
-
-    <hr>
-
-
-    <hr>
+    <input type="text" th:field="*{docdet1.entry}" placeholder="Enter Bachelor's Qualification" >
+<hr>
+    <input type="text" th:field="*{docdet2.entry}" placeholder="Enter Master's Qualification" >
+<hr>
+    <input type="text" th:field="*{docdet3.entry}" placeholder="Enter PhD Qualification" >
+<hr>
+    <input type="text" th:field="*{docdet4.entry}" placeholder="Enter Previous Work Experience" >
+<hr>
+    <button type="submit">Submit details</button>
 
 
 </form>

@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 public class DocDet {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+  private int id;
     @Column(name="user_id")
     private String username;
 
@@ -18,6 +21,14 @@ public class DocDet {
 
     public String getUsername() {
         return username;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setUsername(String username) {
@@ -40,7 +51,8 @@ public class DocDet {
         this.entry = entry;
     }
 
-    public DocDet(String username, String type_entry, String entry) {
+    public DocDet(int id, String username, String type_entry, String entry) {
+        this.id = id;
         this.username = username;
         this.type_entry = type_entry;
         this.entry = entry;
