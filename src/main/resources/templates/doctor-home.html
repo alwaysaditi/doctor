@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<h1> Welcome Dr.  <span sec:authentication = "principal.username"></span></h1>
+
+
+<h3 th:text = "${reftext}"></h3>
+
+<form th:unless="${added}" action="#" th:action="@{/doctor/registerdoc}" th:object="${newdoctor}" method="POST">
+
+    <input type="text" th:field="*{fullName}" placeholder="Full name" >
+    <hr>
+    <form>
+
+        <select name="speciality">
+            <option value="Gastroenterology">Gastroenterology</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Gynaecology">Gynaecology</option>
+            <option value="Paediatrics">Paediatrics</option>
+            <option value="General Physician">General Physician</option>
+
+        </select>
+        <button type="submit">Submit details</button>
+    </form>
+    <hr>
+
+
+    <hr>
+
+
+    <hr>
+
+
+</form>
+
 </body>
 </html>

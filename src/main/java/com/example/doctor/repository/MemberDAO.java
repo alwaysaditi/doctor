@@ -18,4 +18,7 @@ public interface MemberDAO extends JpaRepository<Member,String> {
     @Query(nativeQuery= true, value="SELECT user_id FROM members WHERE user_id = :userid")
     List<String> findByUsername(String userid);
 
+    @Query(nativeQuery= true, value="SELECT email FROM members WHERE user_id = :userid")
+   String findEmailByUsername(String userid);
+
 }
