@@ -56,7 +56,8 @@ public class SecurityConfig {
 //    }
 
 @Bean
-    public UserDetailsManager userDetailsManager(DataSource dataSource)
+    public UserDetailsManager userDetailsManager(DataSource dataSource) // this datasource is configured from the
+        // details given in application.properties file
     {
       JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 

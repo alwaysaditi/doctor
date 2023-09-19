@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/doctor")
 public class DoctorController {
@@ -80,6 +82,21 @@ DocDet phDegree = new DocDet(0,authenticatedusername,"DEGREE",formEntity.getDocd
         return "doctor-home";
     }
 
+    @GetMapping("/viewdoc")
+    public String viewDoctor(Model docmodel)
+    {
+        Doctor currDoc = doctorRepository.findByUsername(authenticatedusername);
+       List<DocDet> docdet=  doctorDetails.findByUserId(authenticatedusername);
+        docmodel.addAttribute("fullname",currDoc.getFullName());
+        docmodel.addAttribute("email",currDoc.getEmail());
+        docmodel.addAttribute("speciality",currDoc.getSpeciality());
+ docmodel.addAttribute("bachelors",docdet.get(0).getEntry());
+ docmodel.addAttribute("masters",docdet.get(1).getEntry());
+ docmodel.addAttribute("phd",docdet.get(2).getEntry());
+        docmodel.addAttribute("experience",docdet.get(3).getEntry());
+ return "doc-profile";
+
+    }
 
 
 }

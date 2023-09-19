@@ -36,5 +36,17 @@
 
 </form>
 
+<div th:if="${added}">
+    <form th:action="@{/doctor/viewdoc}" method="get">
+        <button type="submit">View your profile</button>
+    </form>
+<hr>
+    <form th:action="@{/admin/assignusers}" method="get">
+        <button type="submit">View your apppointments!</button>
+    </form>
+
+</div>
+
+
 </body>
 </html>
