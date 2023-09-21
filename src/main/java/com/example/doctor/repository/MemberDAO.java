@@ -13,7 +13,7 @@ public interface MemberDAO extends JpaRepository<Member,String> {
 
     Member save(Member member);
 
-   Optional<Member> findByUserName(String userName);
+   Member findByUserName(String userName);
 
     @Query(nativeQuery= true, value="SELECT user_id FROM members WHERE user_id = :userid")
     List<String> findByUsername(String userid);

@@ -54,7 +54,7 @@ public class DoctorController {
             model.addAttribute("reftext","please configure your profile first!");
             FormEntity formEntity = new FormEntity(new Doctor(), new DocDet(),new DocDet(), new DocDet(),new DocDet());
             model.addAttribute("formentity", formEntity);
-            System.out.println("no such doctor yet exists");
+            //System.out.println("no such doctor yet exists");
         }
 
         return "doctor-home";

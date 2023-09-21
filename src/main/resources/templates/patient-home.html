@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-Welcome   <span sec:authentication = "principal.username"></span>
+
+
+<h3 th:text = "${reftext}"></h3>
+
+<form th:unless="${added}" action="#" th:action="@{/patient/registerpatient}" th:object="${patient}" method="POST">
+
+    <input type="hidden" th:field="*{name}" placeholder="Full name" th:value = "*{name}" >
+    <hr>
+    <input type="hidden" th:field="*{email}" placeholder="Full name" th:value = "*{email}" >
+    <hr>
+
+    <input type="hidden" th:field="*{user_id}" placeholder="Full name" th:value = "*{user_id}" >
+    <input type="date" id="dob" name="dob" th:field="*{dob}" required>
+
+    <select th:field="*{bloodgroup}">
+        <option value="O+">O Positive</option>
+        <option value="AB+">AB Positive</option>
+
+    </select><br/>
+    <hr>
+
+    <button type="submit">Submit details</button>
+
+
+</form>
+
+<div th:if="${added}">
+    <h3 th:text = "${reftext}"></h3>
+    <form th:action="@{/patient/specialitypost}" method="post" >
+
+        <select name="speciality">
+            <option value="Gastroenterology">Gastroenterology</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Paediatrics">Paediatrics</option>
+            <option value="GeneralPhysician">General Physican</option>
+
+
+        </select>
+        <button type="submit">Select Speciality to View Doctrs</button>
+    </form>
+</div>
+
+
 </body>
 </html>
