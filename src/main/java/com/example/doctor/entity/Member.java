@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
-import java.text.SimpleDateFormat;
+
 
 @Entity
 @Table(name = "members")

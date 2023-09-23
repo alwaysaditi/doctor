@@ -1,5 +1,7 @@
 package com.example.doctor.entity;
 
+import java.util.List;
+
 public class FormEntity {
 
     private Doctor doctor;
@@ -19,7 +21,14 @@ public class FormEntity {
         this.docdet3 = docdet3;
         this.docdet4 = docdet4;
     }
-
+public FormEntity(Doctor doctor, List<DocDet> details)
+{
+    this.doctor=doctor;
+    this.docdet1 = details.get(0);
+    this.docdet2 = details.get(1);
+    this.docdet3 = details.get(2);
+    this.docdet4 = details.get(3);
+}
     public FormEntity() {
     }
 

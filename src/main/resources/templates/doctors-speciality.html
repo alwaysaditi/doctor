@@ -2,10 +2,76 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>User Carousel</title>
+    <!-- Custom CSS for Carousel Control Buttons -->
+    <style>
+    /* Customize the color of the carousel control buttons */
+    .carousel-control-prev, .carousel-control-next {
+        color: #333; /* Change the color to a darker shade */
+         font-size: 24px; /* Adjust the font size to your desired size */
+        width: 40px; /* Adjust the width to make the buttons smaller */
+        height: 40px; /* Adjust the height to make the buttons smaller */
+        margin-top : 30px;
+    }
+
+    /* Customize the background color of the carousel control buttons on hover */
+    .carousel-control-prev:hover, .carousel-control-next:hover {
+        background-color: #007bff; /* Change the background color on hover */
+        color: #fff; /* Change the text color on hover to white */
+    }
+
+
+
+</style>
+
 </head>
 <body>
-<h1>you have chosen</h1>
-<h2 th:text="${newspecial}"></h2>
+
+<div class="container mt-5">
+    <h2>User Carousel</h2>
+
+    <div id="userCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <!-- Iterate through each user -->
+            <div th:each="user, iterStat : ${specdoc}" class="carousel-item" th:classappend="${iterStat.index == 0} ? active">
+                <!-- User Data -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${user.doctor.fullName}"></h5>
+                        <p class="card-text" th:text="${user.doctor.speciality}"></p>
+                        <p class="card-text" th:text="${user.docdet1.entry}"></p>
+                        <p class="card-text" th:text="${user.docdet2.entry}"></p>
+                        <p class="card-text" th:text="${user.docdet3.entry}"></p>
+                        <p class="card-text" th:text="${user.docdet4.entry}"></p>
+                        <button class="btn btn-sm btn-primary mt-3" style="width: 150px; margin: 0 auto; display: block;">book an appointment!</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Control Buttons -->
+        <a class="carousel-control-prev" href="#userCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#userCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+
+    <!-- Additional Button -->
+
+</div>
+
+<!-- Bootstrap JS and jQuery (make sure to include them) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

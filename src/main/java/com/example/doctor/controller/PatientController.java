@@ -1,9 +1,13 @@
 package com.example.doctor.controller;
 
 import com.example.doctor.entity.*;
+import com.example.doctor.repository.DoctorDetails;
+import com.example.doctor.repository.DoctorRepository;
 import com.example.doctor.repository.MemberDAO;
 import com.example.doctor.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -24,6 +30,10 @@ public class PatientController {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private DoctorRepository doctorRepository;
+    @Autowired
+    private DoctorDetails docdetRepo;
     @Autowired
     private MemberDAO memberDAO;
     @GetMapping("/")
@@ -77,6 +87,25 @@ return "patient-home";
 
         model.addAttribute("newspecial",speciality);
 
+        List<Doctor> doctors = doctorRepository.findBySpeciality(speciality);
+        System.out.println("size of matching= "+doctors.size());
+        List<FormEntity> docdetails = new ArrayList<>();
+        for(int i=0;i< doctors.size();i++)
+        {
+          //  System.out.println("doctor name = "+doctors.get(i).getFullName());
+         docdetails.add(new FormEntity(doctors.get(i),docdetRepo.findByUserId(doctors.get(i).getUsername())));
+//         System.out.println(docdetRepo.findByUserId(doctors.get(i).getUsername()).get(0));
+//            System.out.println(docdetRepo.findByUserId(doctors.get(i).getUsername()).get(1));
+//            System.out.println(docdetRepo.findByUserId(doctors.get(i).getUsername()).get(2));
+//            System.out.println(docdetRepo.findByUserId(doctors.get(i).getUsername()).get(3));
+        }
+
+        model.addAttribute("specdoc",docdetails);
+// need to fetch list of doctors and docdets satisfying a speciality
+        // once u fetch a list of doctors, fetch list of corresponding docdets with that username
 return "doctors-speciality";
     }
+
+
+
 }
