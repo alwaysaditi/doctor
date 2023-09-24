@@ -1,8 +1,10 @@
 package com.example.doctor.controller;
 
+import com.example.doctor.entity.Appointments;
 import com.example.doctor.entity.DocDet;
 import com.example.doctor.entity.Doctor;
 import com.example.doctor.entity.FormEntity;
+import com.example.doctor.repository.AppointmentRepository;
 import com.example.doctor.repository.DoctorDetails;
 import com.example.doctor.repository.DoctorRepository;
 import com.example.doctor.repository.MemberDAO;
@@ -33,6 +35,9 @@ public class DoctorController {
 
     @Autowired
     private DoctorDetails doctorDetails;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
     @GetMapping("/")
     public String doctorHome(Model model)
     {
@@ -71,7 +76,12 @@ Doctor theSavedDoc = new Doctor(0,authenticatedusername,memberDAO.findEmailByUse
 DocDet bachelorsDegree = new DocDet(0,authenticatedusername,"DEGREE",formEntity.getDocdet1().getEntry());
 DocDet mastersDegree = new DocDet(0,authenticatedusername,"DEGREE",formEntity.getDocdet2().getEntry());
 DocDet phDegree = new DocDet(0,authenticatedusername,"DEGREE",formEntity.getDocdet3().getEntry());
-        DocDet experience = new DocDet(0,authenticatedusername,"EXPERIENCE",formEntity.getDocdet4().getEntry());
+DocDet experience = new DocDet(0,authenticatedusername,"EXPERIENCE",formEntity.getDocdet4().getEntry());
+        Appointments day1 = new Appointments(0,authenticatedusername,"MONDAY");
+        Appointments day2 = new Appointments(0,authenticatedusername,"TUESDAY");
+        Appointments day3 = new Appointments(0,authenticatedusername,"WEDNESDAY");
+        Appointments day4 = new Appointments(0,authenticatedusername,"THURSDAY");
+        Appointments day5 = new Appointments(0,authenticatedusername,"FRIDAY");
         model.addAttribute("added",true);
         model.addAttribute("reftext","Welcome to the home page!, Dr "+formEntity.getDoctor().getFullName());
         doctorRepository.save(theSavedDoc);
@@ -79,6 +89,11 @@ DocDet phDegree = new DocDet(0,authenticatedusername,"DEGREE",formEntity.getDocd
         doctorDetails.save(mastersDegree);
         doctorDetails.save(phDegree);
         doctorDetails.save(experience);
+        appointmentRepository.save(day1);
+        appointmentRepository.save(day2);
+        appointmentRepository.save(day3);
+        appointmentRepository.save(day4);
+        appointmentRepository.save(day5);
         return "doctor-home";
     }
 

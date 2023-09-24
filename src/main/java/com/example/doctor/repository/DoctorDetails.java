@@ -5,9 +5,10 @@ import com.example.doctor.entity.Doctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface DoctorDetails extends JpaRepository<DocDet,String> {
 
     DocDet save(DocDet docDet);

@@ -12,10 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +23,11 @@ import java.util.Optional;
 public class PatientController {
 
     String authenticatedusername ;
+
+    String doctorname;
+
+    String doctoruserid;
+
 
     @Autowired
     private PatientRepository patientRepository;
@@ -104,6 +106,32 @@ return "patient-home";
 // need to fetch list of doctors and docdets satisfying a speciality
         // once u fetch a list of doctors, fetch list of corresponding docdets with that username
 return "doctors-speciality";
+    }
+
+    @GetMapping("/appointment")
+    public String bookAppointment(@RequestParam(required=false,name = "username") String username, Model model) {
+
+Doctor doctor = doctorRepository.findByUsername(username);
+
+
+        model.addAttribute("selecteday",false);
+doctorname = doctor.getFullName();
+doctoruserid = doctor.getUsername();
+        model.addAttribute("doctoruserid",doctoruserid);
+        //conditionally display a dropdown of day of the week depending on whether a day has been selected or not
+
+        return "appointment-patient";
+    }
+    // try to set the weekday variable to null after it's value has been used
+
+    @PostMapping("/chooseday")
+    public String chooseday(@ModelAttribute("weekday")String weekday,Model model)
+    {
+        model.addAttribute("weekday",weekday);
+
+        model.addAttribute("doctoruserid",doctoruserid);
+        model.addAttribute("selecteday",true);
+        return "appointment-patient";
     }
 
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>you have selected Doctor </h3>
+<div th:text="${doctoruserid}"></div>
+
+
+
+<p>Please select a day of the week</p>
+    <form th:action="@{/patient/chooseday}" method="post" >
+
+        <select name="weekday">
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+
+        </select>
+        <button type="submit">Select day</button>
+    </form>
+
+
+<div th:if="${selecteday}">
+
+    <div th:text="${weekday}"></div>
+
+    <p> here is the schedule</p>
+
+</div>
+
+
+<hr>
+
+<form action="#" th:action="@{/logout}" method="POST">
+    <input type ="submit" value = "Logout"/>
+</form>
+
+<hr>
+
+<form th:action="@{/patient/}" method="get">
+    <button type="submit">Go back!</button>
+</form>
+</body>
+</html>

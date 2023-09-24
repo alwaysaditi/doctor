@@ -45,7 +45,7 @@
                         <p class="card-text" th:text="${user.docdet2.entry}"></p>
                         <p class="card-text" th:text="${user.docdet3.entry}"></p>
                         <p class="card-text" th:text="${user.docdet4.entry}"></p>
-                        <button class="btn btn-sm btn-primary mt-3" style="width: 150px; margin: 0 auto; display: block;">book an appointment!</button>
+                        <a th:href="@{'/patient/appointment?username=' + ${user.doctor.username}}" class="btn btn-sm btn-primary mt-3" style="width: 150px; margin: 0 auto; display: block;">book an appointment!</a>
 
                     </div>
                 </div>
