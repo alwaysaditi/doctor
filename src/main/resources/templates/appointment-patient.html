@@ -29,7 +29,23 @@
 
     <div th:text="${weekday}"></div>
 
-    <p> here is the schedule</p>
+
+
+    <table  th:if="${#lists.size(emptyslots) > 0}">
+        <p> here is the schedule</p>
+    <thead>
+
+    </thead>
+        <tbody>
+        <tr th:each="slot : ${emptyslots}">
+            <form th:action="@{/patient/selectappointment}" method="post">
+                <input type="text" name="slot" th:value="${slot}" />
+                <button type="submit" th:text="${slot}"></button>
+            </form>
+        </tr>
+
+        </tbody>
+    </table>
 
 </div>
 

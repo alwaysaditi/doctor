@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${allowed}">
+<h3>your name is </h3>
+<div th:text="${patient}"></div>
+
+<h3>you have selected doctor</h3>
+<div th:text="${doctor}"></div>
+
+<h3>for slot</h3>
+<div th:text="${slot}"></div>
+
+
+<h3>on day</h3>
+<div th:text="${weekday}"></div>
+
+    <p>Your appointment request will be processed shortly. Please keep checking the website and your email for updates</p>
+</div>
+
+<div th:unless="${allowed}">
+    <div th:text="${notallowedmessage}"></div>
+</div>
+
+<form th:action="@{/home}" method="get">
+    <button type="submit">Go back!</button>
+</form>
+</body>
+</html>
