@@ -38,6 +38,9 @@ public class PatientController {
     private DoctorDetails docdetRepo;
     @Autowired
     private MemberDAO memberDAO;
+
+   @Autowired
+   private AppointmentReq appointmentReq;
     @GetMapping("/")
     public String patientHome(Model model)
     {
@@ -188,11 +191,10 @@ doctoruserid = doctor.getUsername();
   if(duplicateAppt==null)
   {
       model.addAttribute("allowed",true);
+      ApptRequest apptRequest = new ApptRequest(0,doctoruserid,authenticatedusername,slot,weekdayfin, ApptRequest.Status.PENDING);
+      appointmentReq.save(apptRequest);
   }
-//  if((duplicateAppt.getSlot1()==authenticatedusername)||(duplicateAppt.getSlot2()==authenticatedusername)
-//          ||(duplicateAppt.getSlot3()==authenticatedusername)||(duplicateAppt.getSlot4()==authenticatedusername)||
-//          (duplicateAppt.getSlot5()==authenticatedusername)||(duplicateAppt.getSlot6()==authenticatedusername)||
-//          (duplicateAppt.getSlot7()==authenticatedusername)||(duplicateAppt.getSlot8()==authenticatedusername))
+
     else
   {
       model.addAttribute("day_week",duplicateAppt.getDay_week());

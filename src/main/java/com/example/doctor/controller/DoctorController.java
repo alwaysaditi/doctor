@@ -1,23 +1,14 @@
 package com.example.doctor.controller;
 
-import com.example.doctor.entity.Appointments;
-import com.example.doctor.entity.DocDet;
-import com.example.doctor.entity.Doctor;
-import com.example.doctor.entity.FormEntity;
-import com.example.doctor.repository.AppointmentRepository;
-import com.example.doctor.repository.DoctorDetails;
-import com.example.doctor.repository.DoctorRepository;
-import com.example.doctor.repository.MemberDAO;
+import com.example.doctor.entity.*;
+import com.example.doctor.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +28,11 @@ public class DoctorController {
     private DoctorDetails doctorDetails;
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private AppointmentReq appointmentReq;
+
+    List<ApptRequest> pendingRequests;
 
     @GetMapping("/")
     public String doctorHome(Model model)
@@ -113,5 +109,29 @@ DocDet experience = new DocDet(0,authenticatedusername,"EXPERIENCE",formEntity.g
 
     }
 
+    @GetMapping("/viewrequests")
+    public String viewPendingRequests(Model model)
+    {
+        // this line is used to gather the list of pending requests for a particular doctor
+        pendingRequests = appointmentReq.findApptReqs(authenticatedusername,"PENDING");
+
+        model.addAttribute("pendingrequests",pendingRequests);
+
+        return "view-requests";
+    }
+
+    @PostMapping("/approverequest")
+    public String approveRequests(@ModelAttribute("doc_id")String doc_id, @RequestParam("status") String acceptedstatus, Model model)
+    {
+        System.out.println("request doctor = "+doc_id);
+
+       // ApptRequest newRequest = new ApptRequest(request.getDoc_id(),request.getUser_id(),request.getSlot(),request.getDay_week());
+       // newRequest.setStatus(newRequest.getStatusFromString(acceptedstatus));
+       // appointmentReq.save(newRequest); // although this method can be used to update pending requests , it is not getting updated because
+        // no data is being passed from request object
+
+model.addAttribute("pendingrequests",pendingRequests);
+        return "view-requests";
+    }
 
 }

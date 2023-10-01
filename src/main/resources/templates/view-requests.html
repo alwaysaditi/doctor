@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User Table</title>
+</head>
+<body>
+<div th:if="${#lists.size(pendingrequests) == 0}">
+  <h2>No patients left to approve! </h2>
+  <form th:action="@{/home}" method="get">
+    <button type="submit">Go back!</button>
+  </form>
+</div>
+<table  th:if="${#lists.size(pendingrequests) > 0}">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Day</th>
+    <th>Slot</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="request : ${pendingrequests}">
+    <td th:text="${request.user_id}"></td>
+    <td th:text="${request.day_week}"></td>
+    <td th:text="${request.slot}"></td>
+
+    <td>
+      <form th:action="@{/doctor/approverequest}" method="post" >
+        <input type="hidden" name="doc_id" th:value="${request.doc_id}"/>
+        <input type="hidden" name="user_id" th:value="${request.user_id}"/>
+        <input type="hidden" name="slot" th:value="${request.slot}"/>
+
+<!--        <input type="hidden" th:object="${pendingrequests}"/>-->
+        <select name="status">
+          <option value="ACCEPT">Approve</option>
+          <option value="REJECT">Reject</option>
+        </select>
+        <button type="submit">Update Status</button>
+      </form>
+    </td>
+  </tr>
+  <h3>Please click on a user approve/reject their request</h3>
+  </tbody>
+</table>
+
+</body>
+</html>
