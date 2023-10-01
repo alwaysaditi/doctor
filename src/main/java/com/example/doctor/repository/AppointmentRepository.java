@@ -20,4 +20,6 @@ public interface AppointmentRepository extends JpaRepository<Appointments,Intege
             "(e.slot1 = :value OR e.slot2 = :value OR e.slot3 = :value OR e.slot4 = :value OR e.slot5 = :value OR e.slot6 = :value OR e.slot7 = :value OR e.slot8 = :value)")
     Appointments findDuplicate(@Param("docid") String docid, @Param("value") String value);
 
+
+
 }

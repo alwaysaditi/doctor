@@ -121,15 +121,18 @@ DocDet experience = new DocDet(0,authenticatedusername,"EXPERIENCE",formEntity.g
     }
 
     @PostMapping("/approverequest")
-    public String approveRequests(@ModelAttribute("doc_id")String doc_id, @RequestParam("status") String acceptedstatus, Model model)
+    public String approveRequests(@ModelAttribute("doc_id")String doc_id, @ModelAttribute("user_id")String user_id,@ModelAttribute("slot")String slot,@ModelAttribute("day_week")String day_week,@RequestParam("status") String acceptedstatus, Model model)
     {
         System.out.println("request doctor = "+doc_id);
 
-       // ApptRequest newRequest = new ApptRequest(request.getDoc_id(),request.getUser_id(),request.getSlot(),request.getDay_week());
-       // newRequest.setStatus(newRequest.getStatusFromString(acceptedstatus));
-       // appointmentReq.save(newRequest); // although this method can be used to update pending requests , it is not getting updated because
+       ApptRequest newRequest = new ApptRequest(doc_id,user_id,slot,day_week);
+       newRequest.setStatus(newRequest.getStatusFromString(acceptedstatus));
+       appointmentReq.save(newRequest); // although this method can be used to update pending requests , it is not getting updated because
         // no data is being passed from request object
-
+//        ApptRequest oldRequest = new ApptRequest(doc_id,user_id,slot,day_week);
+//        oldRequest.setStatus(oldRequest.getStatusFromString("PENDING"));
+        appointmentReq.removePending(doc_id,user_id,"PENDING");
+        pendingRequests = appointmentReq.findApptReqs(doc_id,"PENDING");
 model.addAttribute("pendingrequests",pendingRequests);
         return "view-requests";
     }
