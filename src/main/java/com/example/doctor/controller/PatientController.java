@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,8 @@ public class PatientController {
     String weekdayfin;
 
     String doctoruserid;
+
+
 
 
     @Autowired
@@ -136,7 +139,7 @@ doctoruserid = doctor.getUsername();
         Appointments tempAppointment = appointmentRepository.findAppointment(doctoruserid,weekday);
         weekdayfin = weekday;
         List<String> emptySlots = new ArrayList<String>();
-        if(tempAppointment.getSlot1()==null)
+        if(tempAppointment.getSlot1()==null) // will try to reduce this code size too
         {
             emptySlots.add("2:30 pm");
         }

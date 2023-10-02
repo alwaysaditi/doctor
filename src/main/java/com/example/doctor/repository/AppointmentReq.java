@@ -22,4 +22,6 @@ ApptRequest save(ApptRequest apptRequest);
     @Modifying
     @Query(nativeQuery = true, value = "DELETE from a_requests e where e.doc_id =:doc_id AND e.user_id =:user_id and e.status =:status")
     Integer removePending(@Param("doc_id") String doc_id,@Param("user_id") String user_id, @Param("status") String status);
+
+
 }

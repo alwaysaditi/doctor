@@ -1,5 +1,6 @@
 package com.example.doctor.controller;
 
+import com.example.doctor.DoctorApplication;
 import com.example.doctor.entity.*;
 import com.example.doctor.repository.*;
 import jakarta.transaction.Transactional;
@@ -9,6 +10,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import jakarta.persistence.Query;
 
 import java.util.List;
 
@@ -33,6 +38,10 @@ public class DoctorController {
     private AppointmentReq appointmentReq;
 
     List<ApptRequest> pendingRequests;
+
+
+   @PersistenceContext
+    private EntityManager entityManager;
 
     @GetMapping("/")
     public String doctorHome(Model model)
@@ -121,20 +130,45 @@ DocDet experience = new DocDet(0,authenticatedusername,"EXPERIENCE",formEntity.g
     }
 
     @PostMapping("/approverequest")
+    @Transactional
     public String approveRequests(@ModelAttribute("doc_id")String doc_id, @ModelAttribute("user_id")String user_id,@ModelAttribute("slot")String slot,@ModelAttribute("day_week")String day_week,@RequestParam("status") String acceptedstatus, Model model)
     {
         System.out.println("request doctor = "+doc_id);
 
        ApptRequest newRequest = new ApptRequest(doc_id,user_id,slot,day_week);
        newRequest.setStatus(newRequest.getStatusFromString(acceptedstatus));
-       appointmentReq.save(newRequest); // although this method can be used to update pending requests , it is not getting updated because
-        // no data is being passed from request object
-//        ApptRequest oldRequest = new ApptRequest(doc_id,user_id,slot,day_week);
-//        oldRequest.setStatus(oldRequest.getStatusFromString("PENDING"));
+       appointmentReq.save(newRequest);
         appointmentReq.removePending(doc_id,user_id,"PENDING");
         pendingRequests = appointmentReq.findApptReqs(doc_id,"PENDING");
-model.addAttribute("pendingrequests",pendingRequests);
+         model.addAttribute("pendingrequests",pendingRequests);
+         if(acceptedstatus.equals("ACCEPT"))
+         {
+             String columnName = DoctorApplication.slots.get(slot);
+             String sql = "UPDATE appointments a SET a." + columnName + " = :patient_id " +
+                     "WHERE a.user_id = :user_id AND a.day_week = :day_week";
+
+             // Create a native query
+             jakarta.persistence.Query query = entityManager.createNativeQuery(sql);
+
+             // Set parameters
+             query.setParameter("patient_id", user_id);
+             query.setParameter("user_id", doc_id);
+             query.setParameter("day_week", day_week);
+
+             // Execute the query
+             query.executeUpdate();
+         }
+
         return "view-requests";
+    }
+
+    @GetMapping("/viewappointments")
+    public String viewAppointments(Model model)
+    {
+        String doctorName = authenticatedusername;
+       List<Appointments> docAppts = appointmentRepository.findAppointmentsbyDoc(doctorName);
+       model.addAttribute("appointments",docAppts);
+       return "view-appointments";
     }
 
 }

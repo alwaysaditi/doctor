@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom CSS styles here, if needed */
+        table {
+            width: 80%; /* Adjust the width as needed */
+            margin: 40 auto; /* Center the table horizontally */
+            table-layout: fixed; /* Equal cell width */
+        }
+        th, td {
+            text-align: center; /* Center-align text in cells */
+            vertical-align: middle; /* Vertically center-align content */
+            border: 1px solid #ccc; /* Add borders to cells */
+        }
+        th.row-header {
+            background-color: #f5f5f5; /* Header background color */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th class="row-header"></th>
+            <th>Slot 1</th>
+            <th>Slot 2</th>
+            <th>Slot 3</th>
+            <th>Slot 4</th>
+            <th>Slot 5</th>
+            <th>Slot 6</th>
+            <th>Slot 7</th>
+            <th>Slot 8</th>
+            <!-- Add more table headers for other slots -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row, iterStat : ${appointments}">
+            <td class="row-header" th:text="${#strings.capitalize(iterStat.index+1)}"></td>
+            <td th:style="${row.slot1 == null ? 'background-color: green;' : 'background-color: red;'}"
+                th:text="${row.slot1}"></td>
+            <td th:style="${row.slot2 == null ? 'background-color: green;' : 'background-color: red;'}"
+                th:text="${row.slot2}"></td>
+            <td th:style="${row.slot3 == null ? 'background-color: green;' : 'background-color: red;'}"
+                th:text="${row.slot3}"></td>
+            <td th:style="${row.slot4 == null ? 'background-color: green;' : 'background-color: red;'}"
+                th:text="${row.slot4}"></td>
+            <td th:style="${row.slot5 == null ? 'background-color: green;' : 'background-color: red;'}"
+                th:text="${row.slot5}"></td>
+            <td th:style="${row.slot6 == null ? 'background-color: green;' : 'background-color: red;'}"
+                th:text="${row.slot6}"></td>
+            <td th:style="${row.slot7 == null ? 'background-color: green;' : 'background-color: red;'}"
+                th:text="${row.slot7}"></td>
+            <td th:style="${row.slot8 == null ? 'background-color: green;' : 'background-color: red;'}"
+                th:text="${row.slot8}"></td>
+            <!-- Add more table data cells for other slots -->
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
